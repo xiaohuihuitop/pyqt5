@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>667</height>
+    <width>1065</width>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>20</y>
+      <x>580</x>
+      <y>80</y>
       <width>321</width>
       <height>541</height>
      </rect>
@@ -212,20 +212,482 @@ background-color: rgb(164, 184, 255);</string>
      </item>
     </layout>
    </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>421</width>
+      <height>661</height>
+     </rect>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::North</enum>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="tab1">
+     <attribute name="icon">
+      <iconset resource="pic/pic.qrc">
+       <normaloff>:/icon/播放.png</normaloff>
+       <normalon>:/icon/调节.png</normalon>:/icon/播放.png</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>加</string>
+     </attribute>
+     <attribute name="toolTip">
+      <string>这是第一页</string>
+     </attribute>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>321</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLCDNumber" name="lcdNumber_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(97, 255, 181);
+background-color: rgb(255, 89, 225);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>true</bool>
+         </property>
+         <property name="digitCount">
+          <number>5</number>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>50</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>36</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(85, 255, 255);
+background-color: rgb(44, 44, 44);</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="maxLength">
+          <number>5</number>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <property name="cursorPosition">
+          <number>1</number>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>50</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>100</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>36</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(147, 255, 151);
+background-color: rgb(164, 184, 255);</string>
+         </property>
+         <property name="text">
+          <string>增加</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab2">
+     <attribute name="title">
+      <string>减</string>
+     </attribute>
+     <widget class="QFrame" name="frame_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>321</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLCDNumber" name="lcdNumber_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(97, 255, 181);
+background-color: rgb(255, 89, 225);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>true</bool>
+         </property>
+         <property name="digitCount">
+          <number>5</number>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>50</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>36</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(85, 255, 255);
+background-color: rgb(44, 44, 44);</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="maxLength">
+          <number>5</number>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <property name="cursorPosition">
+          <number>1</number>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>50</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>100</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>36</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(147, 255, 151);
+background-color: rgb(164, 184, 255);</string>
+         </property>
+         <property name="text">
+          <string>减少</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab3">
+     <attribute name="icon">
+      <iconset resource="pic/pic.qrc">
+       <normaloff>:/other/音乐符号.png</normaloff>:/other/音乐符号.png</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>其他</string>
+     </attribute>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>260</y>
+        <width>63</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>其他</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>815</width>
+     <width>1065</width>
      <height>26</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>lineEdit</sender>
@@ -234,12 +696,28 @@ background-color: rgb(164, 184, 255);</string>
    <slot>display(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>449</x>
-     <y>314</y>
+     <x>591</x>
+     <y>423</y>
     </hint>
     <hint type="destinationlabel">
-     <x>427</x>
-     <y>149</y>
+     <x>591</x>
+     <y>201</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_3</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>lcdNumber_3</receiver>
+   <slot>display(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>273</y>
     </hint>
    </hints>
   </connection>

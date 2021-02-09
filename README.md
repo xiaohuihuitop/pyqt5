@@ -59,3 +59,63 @@
 字体方向
 
 ![image-20210208215839086](README.assets/image-20210208215839086.png)
+
+
+
+## Tab Widget
+
+![image-20210208232214433](README.assets/image-20210208232214433.png)
+
+
+
+![image-20210208232351222](README.assets/image-20210208232351222.png)
+
+![image-20210208232437002](README.assets/image-20210208232437002.png)
+
+![image-20210208232557548](README.assets/image-20210208232557548.png)
+
+这个设置比较简单 就是icon设置好看点就行  图标的大小会影响整个页面选择的大小
+
+![image-20210208232732755](README.assets/image-20210208232732755.png)
+
+这里是更换页面标签显示的位置 下面那个是样式
+
+### 简单使用
+
+Tab Widget内部的小控件 是通过名字访问的
+
+获取当前页面与判断
+
+```python
+self.tabWidget.currentChanged.connect(self.Tab_Call)
+if self.tabWidget.currentIndex() == 0:
+```
+
+
+
+
+
+## 添加资源文件
+
+![image-20210209121512548](README.assets/image-20210209121512548.png)
+
+![image-20210209121535817](README.assets/image-20210209121535817.png)
+
+全部新建即可 然后加入 png图片  前缀设置无 
+
+[阿里巴巴矢量图标库](https://www.iconfont.cn/)  可GitHub登录
+
+### 转换
+
+![image-20210209121639315](README.assets/image-20210209121639315.png)
+
+
+
+### 文件分层
+
+![image-20210209121737495](README.assets/image-20210209121737495.png)
+
+### 修改 win.ui 转换后的文件
+
+![image-20210209121821931](README.assets/image-20210209121821931.png)
+

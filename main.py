@@ -9,7 +9,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         super(GetWin, self).__init__()
         self.setupUi(self)
         self.pushButton.clicked.connect(self.Button_Call)
-
+        self.tabWidget.currentChanged.connect(self.Tab_Call)
 
     def Lcd_Show(self):
         pass
@@ -27,6 +27,15 @@ class GetWin(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "Hint", "非数字不能累加", QMessageBox.No | QMessageBox.Close)
             print("err")
             pass
+
+    def Tab_Call(self):
+        if self.tabWidget.currentIndex() == 0:
+            print("0")
+        elif self.tabWidget.currentIndex() == 1:
+            print("1")
+        else:
+            pass
+
 
 
 ui_app = QApplication([])

@@ -1,0 +1,9 @@
+<RCC>
+  <qresource>
+    <file>icon/播放.png</file>
+    <file>icon/调节.png</file>
+  </qresource>
+  <qresource>
+    <file>other/音乐符号.png</file>
+  </qresource>
+</RCC>
