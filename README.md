@@ -142,3 +142,21 @@ path = QFileDialog.getExistingDirectory(self,"请选择目录","") #  返回当�
 
 ```
 
+
+
+### 重写父类
+
+```
+# 重写父类 关闭
+def closeEvent(self, e) -> None:
+```
+
+判断文件是否修改与弹窗
+
+```
+if self.textEdit.document().isModified():
+
+answer = QMessageBox.question(self, "请检查文件", "文件未保存,请确认", QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+
+```
+
