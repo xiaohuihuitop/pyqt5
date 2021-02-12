@@ -119,3 +119,26 @@ if self.tabWidget.currentIndex() == 0:
 
 ![image-20210209121821931](README.assets/image-20210209121821931.png)
 
+
+
+## 制作记事本
+
+### 文件与目录操作
+
+![image-20210212203610969](README.assets/image-20210212203610969.png)
+
+![image-20210212203626334](README.assets/image-20210212203626334.png)
+
+![image-20210212203636570](README.assets/image-20210212203636570.png)
+
+
+
+### 代码处理
+
+```
+path = QFileDialog.getOpenFileName(self, "请选择文件")[0]  # 返回的是一个元组数据，第一个成员是文件名
+
+path = QFileDialog.getExistingDirectory(self,"请选择目录","") #  返回当前目录
+
+```
+
