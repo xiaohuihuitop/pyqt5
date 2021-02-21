@@ -36,8 +36,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pushButton_open.clicked.connect(self.button_open_cb)  # 打开端口
         self.pushButton_close.clicked.connect(self.button_close_cb)  # 关闭端口
 
-        self.pushButton_send.clicked.connect(self.button_send_cb)  # 发送数据
-        self.com.readyRead.connect(self.com_receive_cb)  # 接收数据
+        self.pushButton_send.clicked.connect(self.button_send_cb)  # 发送据数
+        # self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 这里连接无效 需要在打开com口后再链接
         self.pushButton_clean.clicked.connect(self.button_clean_cb)  # 清除按钮
 
 
@@ -80,7 +80,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("set over")
             print(self.com.baudRate())  # 验证波特率
 
-            self.com.setDataTerminalReady(True)
+            self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
         pass
 
     def button_close_cb(self):
