@@ -16,7 +16,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.settings = QSettings("config.ini", QSettings.IniFormat)
 
         # 获取
-        self.com = self.settings.value("SETUP/COM_VALUE")
+        # self.com = self.settings.value("SETUP/COM_VALUE")
         self.baud = self.settings.value("SETUP/BAUD_VALUE")
 
         # 设置
