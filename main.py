@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPlainTextEdit
 from PyQt5.QtCore import QSettings, QIODevice  # 配置文件使用
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo  # 使用qt提供的串口工具 serial 这个模块是python的
 from ui.win import Ui_MainWindow
@@ -40,6 +40,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 这里连接无效 需要在打开com口后再链接
         self.pushButton_clean.clicked.connect(self.button_clean_cb)  # 清除按钮
 
+        # 自动滚屏
+        self.plainTextEdit_Receive.textChanged.connect(self.text_scroll)
 
     def combox_baud_cb(self):
         self.baud = self.comboBox_baud.currentText()
@@ -111,6 +113,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
         if len(rxData) > 0:
             print(rxData)
             self.plainTextEdit_Receive.insertPlainText(rxData.decode('UTF-8'))
+
+    def text_scroll(self):
+        self.plainTextEdit_Receive.verticalScrollBar().setValue(self.plainTextEdit_Receive.verticalScrollBar().maximum())
 
 ui_app = QApplication([])
 main_win = GetWin()

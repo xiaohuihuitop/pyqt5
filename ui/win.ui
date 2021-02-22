@@ -38,6 +38,12 @@
        <height>331</height>
       </rect>
      </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="maximumBlockCount">
+      <number>0</number>
+     </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">

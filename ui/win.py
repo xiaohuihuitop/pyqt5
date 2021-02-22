@@ -24,6 +24,8 @@ class Ui_MainWindow(object):
         self.frame.setObjectName("frame")
         self.plainTextEdit_Receive = QtWidgets.QPlainTextEdit(self.frame)
         self.plainTextEdit_Receive.setGeometry(QtCore.QRect(30, 30, 551, 331))
+        self.plainTextEdit_Receive.setReadOnly(True)
+        self.plainTextEdit_Receive.setMaximumBlockCount(0)
         self.plainTextEdit_Receive.setObjectName("plainTextEdit_Receive")
         self.label = QtWidgets.QLabel(self.frame)
         self.label.setGeometry(QtCore.QRect(30, 10, 63, 14))
