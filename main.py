@@ -105,17 +105,15 @@ class GetWin(QMainWindow, Ui_MainWindow):
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
             print(rxData)
-            self.plainTextEdit_Receive.insertPlainText(rxData.decode('UTF-8'))
+            self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8'))  # ANSI
 
     def button_clean_cb(self):
         print("clean")
-        rxData = bytes(self.com.readAll())
-        if len(rxData) > 0:
-            print(rxData)
-            self.plainTextEdit_Receive.insertPlainText(rxData.decode('UTF-8'))
+        self.plainTextEdit_Receive.clear()
 
     def text_scroll(self):
         self.plainTextEdit_Receive.verticalScrollBar().setValue(self.plainTextEdit_Receive.verticalScrollBar().maximum())
+
 
 ui_app = QApplication([])
 main_win = GetWin()
