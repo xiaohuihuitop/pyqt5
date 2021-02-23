@@ -56,7 +56,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print(com.standardBaudRates())  # 返回设备的支持波特率列表 如[110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000]
             if com.portName() is not None:  # 判断是否为空
                 pass
-                if self.comboBox_com.findText(com.portName()) != 1:  # 判断com口是否重复
+                if self.comboBox_com.findText(com.portName()) < 0:  # 判断com口是否重复
+                    print(self.comboBox_com.findText(com.portName()))  # 测试
                     self.comboBox_com.addItem(com.portName())  # 添加item
 
 
@@ -98,14 +99,19 @@ class GetWin(QMainWindow, Ui_MainWindow):
         print("send")
         txData = self.plainTextEdit_Send.toPlainText()
         print(txData)
+        print(txData.encode('UTF-8'))
         self.com.write(txData.encode('UTF-8'))
 
     def com_receive_cb(self):
         print("receive_cb")
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
-            print(rxData)
-            self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8'))  # ANSI
+            try:
+                # print(rxData.decode('ascii'))  ## 测试
+                self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8')) # ANSI UTF-8 GB2312  ISO-8859-1
+            except:
+                self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1'))  # ANSI UTF-8 GB2312  ISO-8859-1
+
 
     def button_clean_cb(self):
         print("clean")
