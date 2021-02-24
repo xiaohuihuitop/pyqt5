@@ -18,20 +18,38 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 获取
         # self.com = self.settings.value("SETUP/COM_VALUE")
         self.baud = self.settings.value("SETUP/BAUD_VALUE")
-
+        self.databit = self.settings.value("SETUP/DATABIT_VALUE")
+        self.checkbit = self.settings.value("SETUP/CHECKBIT_VALUE")
+        self.stopbit = self.settings.value("SETUP/STOPBIT_VALUE")
         # 设置
         if self.baud is None:
             self.baud = 9600
             self.settings.setValue("SETUP/BAUD_VALUE", self.baud)  # 保存
+        if self.databit is None:
+            self.databit = 8
+            self.settings.setValue("SETUP/DATABIT_VALUE", self.databit)  # 保存
+        if self.checkbit is None:
+            self.checkbit = "NONE"
+            self.settings.setValue("SETUP/CHECKBIT_VALUE", self.checkbit)  # 保存
+        if self.stopbit is None:
+            self.stopbit = 1
+            self.settings.setValue("SETUP/STOPBIT_VALUE", self.stopbit)  # 保存
 
         # 赋值
-        self.comboBox_baud.setCurrentText(self.baud)
+        self.comboBox_baud.setCurrentText(str(self.baud))
+        self.comboBox_databit.setCurrentText(str(self.databit))
+        self.comboBox_checkbit.setCurrentText(str(self.checkbit))
+        self.comboBox_stopbit.setCurrentText(str(self.stopbit))
 
         # 串口类
         self.com = QSerialPort()
 
         # 信号槽
         self.comboBox_baud.currentIndexChanged.connect(self.combox_baud_cb)
+        self.comboBox_databit.currentIndexChanged.connect(self.combox_databit_cb)
+        self.comboBox_checkbit.currentIndexChanged.connect(self.combox_checkbit_cb)
+        self.comboBox_stopbit.currentIndexChanged.connect(self.combox_stopbit_cb)
+
         self.pushButton.clicked.connect(self.button_refresh_cb)   # 刷新端口
         self.pushButton_open.clicked.connect(self.button_open_cb)  # 打开端口
         self.pushButton_close.clicked.connect(self.button_close_cb)  # 关闭端口
@@ -43,9 +61,25 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 自动滚屏
         self.plainTextEdit_Receive.textChanged.connect(self.text_scroll)
 
+        # 初始操作
+        self.button_refresh_cb()
+        self.pushButton_close.setDisabled(True)
+
     def combox_baud_cb(self):
         self.baud = self.comboBox_baud.currentText()
         self.settings.setValue("SETUP/BAUD_VALUE", self.baud)  # 保存
+
+    def combox_databit_cb(self):
+        self.databit = self.comboBox_databit.currentText()
+        self.settings.setValue("SETUP/DATABIT_VALUE", self.databit)  # 保存
+
+    def combox_checkbit_cb(self):
+        self.checkbit = self.comboBox_checkbit.currentText()
+        self.settings.setValue("SETUP/CHECKBIT_VALUE", self.checkbit)  # 保存
+
+    def combox_stopbit_cb(self):
+        self.stopbit = self.comboBox_stopbit.currentText()
+        self.settings.setValue("SETUP/STOPBIT_VALUE", self.stopbit)  # 保存
 
     def button_refresh_cb(self):
         com_list = QSerialPortInfo.availablePorts()  # 获取所有的端口信息
@@ -56,14 +90,14 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print(com.standardBaudRates())  # 返回设备的支持波特率列表 如[110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000]
             if com.portName() is not None:  # 判断是否为空
                 pass
-                if self.comboBox_com.findText(com.portName()) < 0:  # 判断com口是否重复
+                if self.comboBox_com.findText(com.portName() + " # " + com.description()) < 0:  # 判断com口是否重复
                     print(self.comboBox_com.findText(com.portName()))  # 测试
-                    self.comboBox_com.addItem(com.portName())  # 添加item
+                    self.comboBox_com.addItem(com.portName() + " # " + com.description())  # 添加item
 
 
     def button_open_cb(self):
         print("open")
-        port = self.comboBox_com.currentText()  # 获取 COM名字
+        port = self.comboBox_com.currentText()[:5]  # 获取 COM名字
         print(port)
         self.com = QSerialPort()
         self.com.setPortName(port)  # 使用名字 绑定COM口
@@ -76,23 +110,46 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("is open")
             print(self.baud)
             self.com.setBaudRate(int(self.baud))  # 波特率
-            self.com.setDataBits(self.com.Data8)  # 8
-            self.com.setParity(self.com.NoParity)  # n
-            self.com.setStopBits(self.com.OneStop)  # 1
+            # self.com.setDataBits(self.com.Data8)  # 8
+            self.com.setDataBits(int(self.databit))
+            if self.checkbit == "NONE":
+                self.com.setParity(self.com.NoParity)  # n
+            else:
+                self.com.setParity(self.com.NoParity)  # n
+            # self.com.setStopBits(self.com.OneStop)  # 1
+            self.com.setStopBits(int(self.stopbit))
             self.com.setFlowControl(self.com.NoFlowControl)
             print("set over")
             print(self.com.baudRate())  # 验证波特率
 
             self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
+
+            self.comboBox_com.setDisabled(True)
+            # self.comboBox_baud.setDisabled(True)
+            # self.comboBox_databit.setDisabled(True)
+            # self.comboBox_checkbitbit.setDisabled(True)
+            # self.comboBox_stopbitbit.setDisabled(True)
+
+            self.pushButton_open.setDisabled(True)
+            self.pushButton_close.setDisabled(False)
         pass
 
     def button_close_cb(self):
         print("close")
-        port = self.comboBox_com.currentText()
+        port = self.comboBox_com.currentText()[:5]
         print(port)
         self.com = QSerialPort()
         self.com.setPortName(port)
         self.com.close()
+
+        self.comboBox_com.setDisabled(False)
+        # self.comboBox_baud.setDisabled(False)
+        # self.comboBox_databit.setDisabled(False)
+        # self.comboBox_checkbitbit.setDisabled(False)
+        # self.comboBox_stopbitbit.setDisabled(False)
+
+        self.pushButton_open.setDisabled(False)
+        self.pushButton_close.setDisabled(True)
         pass
 
     def button_send_cb(self):
