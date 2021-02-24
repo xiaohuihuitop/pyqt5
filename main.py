@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPlainTextEdit
-from PyQt5.QtCore import QSettings, QIODevice  # 配置文件使用
+from PyQt5.QtCore import QSettings, QIODevice, QTimer  # 配置文件使用
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo  # 使用qt提供的串口工具 serial 这个模块是python的
 from ui.win import Ui_MainWindow
+import datetime
 
 num = 0
 path = None
@@ -43,6 +44,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
         # 串口类
         self.com = QSerialPort()
+
+        # 时间类 定时发送使用
+        self.timer = QTimer()
 
         # 信号槽
         self.comboBox_baud.currentIndexChanged.connect(self.combox_baud_cb)
@@ -154,20 +158,27 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
     def button_send_cb(self):
         print("send")
+        time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
+        print(time_stamp)
         txData = self.plainTextEdit_Send.toPlainText()
         print(txData)
         print(txData.encode('UTF-8'))
         self.com.write(txData.encode('UTF-8'))
+        self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+
+
 
     def com_receive_cb(self):
         print("receive_cb")
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
+            time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
             try:
                 # print(rxData.decode('ascii'))  ## 测试
-                self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8')) # ANSI UTF-8 GB2312  ISO-8859-1
+                self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
+                self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8') + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
             except:
-                self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1'))  # ANSI UTF-8 GB2312  ISO-8859-1
+                self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
 
 
     def button_clean_cb(self):
