@@ -198,13 +198,22 @@ class GetWin(QMainWindow, Ui_MainWindow):
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
             time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
-            try:
-                # print(rxData.decode('ascii'))  ## 测试
-                self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
-                self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8') + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
-            except:
-                self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
-
+            if not self.checkBox_Receive.isChecked():
+                try:
+                    # print(rxData.decode('ascii'))  ## 测试
+                    self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
+                    self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8') + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
+                except:
+                    self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+            else:
+                try:
+                    self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
+                    rxDataHex = binascii.hexlify(rxData, " ").decode("utf-8")  # 转为 utf8字符串
+                    self.plainTextEdit_Receive.insertPlainText(rxDataHex + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
+                except:
+                    rxDataHex = binascii.hexlify(rxData, " ").decode("ISO-8859-1")  # 转为 utf8字符串
+                    self.plainTextEdit_Receive.insertPlainText(rxDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+                pass
 
     def button_clean_cb(self):
         print("clean")
