@@ -162,11 +162,34 @@ class GetWin(QMainWindow, Ui_MainWindow):
         print("send")
         time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
         print(time_stamp)
-        txData = self.plainTextEdit_Send.toPlainText()
-        print(txData)
-        print(txData.encode('UTF-8'))
-        self.com.write(txData.encode('UTF-8'))
-        self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+
+        if self.checkBox_Send.isChecked():
+            txDataHex = self.plainTextEdit_Send.toPlainText()
+            print(txDataHex)
+            txData = txDataHex.replace(" ", "")  # 取消空格 准备转16进制
+            txData = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+            print(txData)
+            self.com.write(txData.encode('UTF-8'))  # 编码为bytes再发送
+
+            # 处理显示部分
+            txDataHex = txDataHex.replace(" ", "")  # 取消空格
+            print(txDataHex)
+
+            alist = []
+            #  将字符串 分割 加入列表
+            for i in range(0, len(txDataHex), 2):
+                alist.append(txDataHex[i:i+2])
+
+            txDataHex = " ".join(alist)  # 使用 ” “ 空格 将列表中的数据连接 就变成了 带空格的16进制数据
+            print(txDataHex)
+
+            self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+        else:
+            txData = self.plainTextEdit_Send.toPlainText()
+            print(txData)
+            print(txData.encode('UTF-8'))
+            self.com.write(txData.encode('UTF-8'))
+            self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
 
 
 
