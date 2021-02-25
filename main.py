@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSettings, QIODevice, QTimer  # 配置文件使用
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo  # 使用qt提供的串口工具 serial 这个模块是python的
 from ui.win import Ui_MainWindow
 import datetime
-
+import binascii
 num = 0
 path = None
 
@@ -53,6 +53,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.comboBox_databit.currentIndexChanged.connect(self.combox_databit_cb)
         self.comboBox_checkbit.currentIndexChanged.connect(self.combox_checkbit_cb)
         self.comboBox_stopbit.currentIndexChanged.connect(self.combox_stopbit_cb)
+
+        self.checkBox_Send.stateChanged.connect(self.checkbox_send_cb)  # 发送 HEX
 
         self.pushButton.clicked.connect(self.button_refresh_cb)   # 刷新端口
         self.pushButton_open.clicked.connect(self.button_open_cb)  # 打开端口
@@ -188,6 +190,34 @@ class GetWin(QMainWindow, Ui_MainWindow):
     def text_scroll(self):
         self.plainTextEdit_Receive.verticalScrollBar().setValue(self.plainTextEdit_Receive.verticalScrollBar().maximum())
 
+    def checkbox_send_cb(self):
+        if self.checkBox_Send.isChecked():
+            #  将 发送框中的数据转为 16进制
+            alist = []
+            txData = self.plainTextEdit_Send.toPlainText().encode('UTF-8') # 获取到数据 并转为 bytes
+            print(txData)
+
+            # txDataHex = binascii.b2a_hex(txData).decode("utf-8") # 转为16进制 字符串 并解码为 utf8
+            #
+            # #  将字符串 分割 加入列表
+            # for i in range(0, len(txDataHex), 2):
+            #     alist.append(txDataHex[i:i+2])
+            #
+            # txDataHex = " ".join(alist)  # 使用 ” “ 空格 将列表中的数据连接 就变成了 带空格的16进制数据
+            # print(txDataHex)
+            # self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
+
+            txDataHex = binascii.hexlify(txData, " ").decode("utf-8")  # 转为16进制 字符串 并解码为 utf8 中间还插入 空格
+            self.plainTextEdit_Send.setPlainText(txDataHex) # 显示
+
+        else:
+            # 将发送框中的 16进制数据转为 utf8 显示
+            txData = self.plainTextEdit_Send.toPlainText()  # 获取到 utf8 数据
+            print(txData)
+            txData = txData.replace(" ", "")  # 将空格取消
+            txDataHex = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+            print(txDataHex)
+            self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
 
 ui_app = QApplication([])
 main_win = GetWin()

@@ -107,6 +107,55 @@
       <string>清空</string>
      </property>
     </widget>
+    <widget class="QCheckBox" name="checkBox_Send">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>550</y>
+       <width>79</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>HEX</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_Receive">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>380</y>
+       <width>79</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>HEX</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Send_Timer">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>540</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_Send_Timer">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>540</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>定时发送(ms)</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
