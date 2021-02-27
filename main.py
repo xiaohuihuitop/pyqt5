@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPlainTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPlainTextEdit, QCheckBox
 from PyQt5.QtCore import QSettings, QIODevice, QTimer  # 配置文件使用
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo  # 使用qt提供的串口工具 serial 这个模块是python的
 from ui.win import Ui_MainWindow
@@ -223,8 +223,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.plainTextEdit_Receive.verticalScrollBar().setValue(self.plainTextEdit_Receive.verticalScrollBar().maximum())
 
     def checkbox_send_cb(self):
-        if self.checkBox_Send.isChecked():
+        if self.checkBox_Send.isChecked():  # 当前需要显示hex
             #  将 发送框中的数据转为 16进制
+            print("utf8 to 16")
             alist = []
             txData = self.plainTextEdit_Send.toPlainText().encode('UTF-8') # 获取到数据 并转为 bytes
             print(txData)
@@ -242,12 +243,39 @@ class GetWin(QMainWindow, Ui_MainWindow):
             txDataHex = binascii.hexlify(txData, " ").decode("utf-8")  # 转为16进制 字符串 并解码为 utf8 中间还插入 空格
             self.plainTextEdit_Send.setPlainText(txDataHex) # 显示
 
-        else:
+        else:  # 最大支持到 7F 当前需要显示 utf8
             # 将发送框中的 16进制数据转为 utf8 显示
+            print("16 to utf8")
+            alist = []
             txData = self.plainTextEdit_Send.toPlainText()  # 获取到 utf8 数据
             print(txData)
             txData = txData.replace(" ", "")  # 将空格取消
-            txDataHex = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+            if len(txData) % 2 == 1:  # 去除独立数据
+                txData = txData[0:len(txData) - 1]
+
+            try:
+                txDataHex = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+            except:
+                QMessageBox.critical(self, '严重错误', '该数据无法转换')
+                self.checkBox_Send.stateChanged.disconnect(self.checkbox_send_cb)
+                self.checkBox_Send.setCheckState(2) # 0未选 1 半选 2选
+                self.checkBox_Send.stateChanged.connect(self.checkbox_send_cb)
+
+                return
+                # for i in range(0, len(txData), 2):
+                #     temp = txData[i:i+2]
+                #     temp_hex = int(temp, 16)
+                #     print(temp, type(temp))
+                #     print(temp_hex, type(temp_hex))
+                #     if temp_hex > 0x7F:
+                #         alist.append("3F")
+                #     else:
+                #         alist.append(temp)
+                #
+                # txData = "".join(alist)
+                # print(alist)
+                # txDataHex = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+
             print(txDataHex)
             self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
 
