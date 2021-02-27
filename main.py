@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPlainTextEdit, QCheckBox
 from PyQt5.QtCore import QSettings, QIODevice, QTimer  # 配置文件使用
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo  # 使用qt提供的串口工具 serial 这个模块是python的
+from PyQt5.QtGui import QIntValidator
 from ui.win import Ui_MainWindow
 import datetime
 import binascii
@@ -46,7 +47,11 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.com = QSerialPort()
 
         # 时间类 定时发送使用
-        self.timer = QTimer()
+        self.timer_receive = QTimer()
+        self.timer_send = QTimer()
+
+        self.timer_receive.timeout.connect(self.com_receive_cb)
+        self.timer_send.timeout.connect(self.button_send_cb)
 
         # 信号槽
         self.comboBox_baud.currentIndexChanged.connect(self.combox_baud_cb)
@@ -55,6 +60,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.comboBox_stopbit.currentIndexChanged.connect(self.combox_stopbit_cb)
 
         self.checkBox_Send.stateChanged.connect(self.checkbox_send_cb)  # 发送 HEX
+        self.checkBox_Send_Timer.stateChanged.connect(self.checkbox_timer_cb)
 
         self.pushButton.clicked.connect(self.button_refresh_cb)   # 刷新端口
         self.pushButton_open.clicked.connect(self.button_open_cb)  # 打开端口
@@ -70,6 +76,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 初始操作
         self.button_refresh_cb()
         self.pushButton_close.setDisabled(True)
+        self.lineEdit_Send_Timer.setValidator(QIntValidator(0, 99999))
 
     def combox_baud_cb(self):
         self.baud = self.comboBox_baud.currentText()
@@ -128,8 +135,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("set over")
             print(self.com.baudRate())  # 验证波特率
 
-            self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
-
+            #self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
+            self.timer_receive.start(100)  # 接收数据 定时
             self.comboBox_com.setDisabled(True)
             # self.comboBox_baud.setDisabled(True)
             # self.comboBox_databit.setDisabled(True)
@@ -278,6 +285,15 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
             print(txDataHex)
             self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
+
+    def checkbox_timer_cb(self):
+        t = self.lineEdit_Send_Timer.text()
+        t = int(t)
+        if self.checkBox_Send_Timer.isChecked():
+            self.timer_send.start(t)
+        else:
+            self.timer_send.stop()
+
 
 ui_app = QApplication([])
 main_win = GetWin()
