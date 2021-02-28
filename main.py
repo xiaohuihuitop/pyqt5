@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIntValidator
 from ui.win import Ui_MainWindow
 import datetime
 import binascii
+
 num = 0
 path = None
 
@@ -62,7 +63,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.checkBox_Send.stateChanged.connect(self.checkbox_send_cb)  # 发送 HEX
         self.checkBox_Send_Timer.stateChanged.connect(self.checkbox_timer_cb)
 
-        self.pushButton.clicked.connect(self.button_refresh_cb)   # 刷新端口
+        self.pushButton.clicked.connect(self.button_refresh_cb)  # 刷新端口
         self.pushButton_open.clicked.connect(self.button_open_cb)  # 打开端口
         self.pushButton_close.clicked.connect(self.button_close_cb)  # 关闭端口
 
@@ -100,13 +101,13 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print(com.portName())  # 返回串口号，如COM1
             print(com.description())  # 返回设备硬件描述 如USB-SERIAL CH340
             print(com.productIdentifier())  # 返回设备编号 如29987
-            print(com.standardBaudRates())  # 返回设备的支持波特率列表 如[110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000]
+            print(
+                com.standardBaudRates())  # 返回设备的支持波特率列表 如[110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600, 115200, 128000, 256000]
             if com.portName() is not None:  # 判断是否为空
                 pass
                 if self.comboBox_com.findText(com.portName() + " # " + com.description()) < 0:  # 判断com口是否重复
                     print(self.comboBox_com.findText(com.portName()))  # 测试
                     self.comboBox_com.addItem(com.portName() + " # " + com.description())  # 添加item
-
 
     def button_open_cb(self):
         print("open")
@@ -135,7 +136,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("set over")
             print(self.com.baudRate())  # 验证波特率
 
-            #self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
+            # self.com.readyRead.connect(self.com_receive_cb)  # 接收数据 需要打开串口后再调用 此处有效
             self.timer_receive.start(100)  # 接收数据 定时
             self.comboBox_com.setDisabled(True)
             # self.comboBox_baud.setDisabled(True)
@@ -166,6 +167,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         pass
 
     def button_send_cb(self):
+        alist = []
         print("send")
         time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
         print(time_stamp)
@@ -174,7 +176,23 @@ class GetWin(QMainWindow, Ui_MainWindow):
             txDataHex = self.plainTextEdit_Send.toPlainText()
             print(txDataHex)
             txData = txDataHex.replace(" ", "")  # 取消空格 准备转16进制
-            txData = binascii.a2b_hex(txData).decode("utf-8")  # 转为 utf8字符串
+            # if len(txData) % 2 == 1:  # 去除独立数据
+            #     txData = txData[0:len(txData) - 1]
+            #     print("------",txData)
+
+            for i in range(0, len(txData), 2):
+                temp = txData[i:i + 2]
+                try:  # 判断
+                    temp_hex = int(temp, 16)
+                    print(temp_hex)
+                    alist.append(temp)
+                except:
+                    QMessageBox.critical(self, '严重错误', '含有非16')
+                    if self.checkBox_Send_Timer.isChecked():
+                        self.checkBox_Send_Timer.setCheckState(0)
+                    return
+
+            txData = " ".join(alist)
             print(txData)
             self.com.write(txData.encode('UTF-8'))  # 编码为bytes再发送
 
@@ -185,20 +203,20 @@ class GetWin(QMainWindow, Ui_MainWindow):
             alist = []
             #  将字符串 分割 加入列表
             for i in range(0, len(txDataHex), 2):
-                alist.append(txDataHex[i:i+2])
+                alist.append(txDataHex[i:i + 2])
 
             txDataHex = " ".join(alist)  # 使用 ” “ 空格 将列表中的数据连接 就变成了 带空格的16进制数据
             print(txDataHex)
 
-            self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+            self.plainTextEdit_Receive.insertPlainText(
+                time_stamp + "发->" + txDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
         else:
             txData = self.plainTextEdit_Send.toPlainText()
             print(txData)
             print(txData.encode('UTF-8'))
             self.com.write(txData.encode('UTF-8'))
-            self.plainTextEdit_Receive.insertPlainText(time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
-
-
+            self.plainTextEdit_Receive.insertPlainText(
+                time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
 
     def com_receive_cb(self):
         print("receive_cb")
@@ -209,14 +227,16 @@ class GetWin(QMainWindow, Ui_MainWindow):
                 try:
                     # print(rxData.decode('ascii'))  ## 测试
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
-                    self.plainTextEdit_Receive.insertPlainText(rxData.decode('utf-8') + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
+                    self.plainTextEdit_Receive.insertPlainText(
+                        rxData.decode('utf-8') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
                 except:
-                    self.plainTextEdit_Receive.insertPlainText(rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+                    self.plainTextEdit_Receive.insertPlainText(
+                        rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
             else:
                 try:
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
                     rxDataHex = binascii.hexlify(rxData, " ").decode("utf-8")  # 转为 utf8字符串
-                    self.plainTextEdit_Receive.insertPlainText(rxDataHex + "\n") # ANSI UTF-8 GB2312  ISO-8859-1
+                    self.plainTextEdit_Receive.insertPlainText(rxDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
                 except:
                     rxDataHex = binascii.hexlify(rxData, " ").decode("ISO-8859-1")  # 转为 utf8字符串
                     self.plainTextEdit_Receive.insertPlainText(rxDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
@@ -227,14 +247,15 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.plainTextEdit_Receive.clear()
 
     def text_scroll(self):
-        self.plainTextEdit_Receive.verticalScrollBar().setValue(self.plainTextEdit_Receive.verticalScrollBar().maximum())
+        self.plainTextEdit_Receive.verticalScrollBar().setValue(
+            self.plainTextEdit_Receive.verticalScrollBar().maximum())
 
     def checkbox_send_cb(self):
         if self.checkBox_Send.isChecked():  # 当前需要显示hex
             #  将 发送框中的数据转为 16进制
             print("utf8 to 16")
             alist = []
-            txData = self.plainTextEdit_Send.toPlainText().encode('UTF-8') # 获取到数据 并转为 bytes
+            txData = self.plainTextEdit_Send.toPlainText().encode('UTF-8')  # 获取到数据 并转为 bytes
             print(txData)
 
             # txDataHex = binascii.b2a_hex(txData).decode("utf-8") # 转为16进制 字符串 并解码为 utf8
@@ -248,7 +269,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
             # self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
 
             txDataHex = binascii.hexlify(txData, " ").decode("utf-8")  # 转为16进制 字符串 并解码为 utf8 中间还插入 空格
-            self.plainTextEdit_Send.setPlainText(txDataHex) # 显示
+            self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
 
         else:  # 最大支持到 7F 当前需要显示 utf8
             # 将发送框中的 16进制数据转为 utf8 显示
@@ -265,7 +286,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
             except:
                 QMessageBox.critical(self, '严重错误', '该数据无法转换')
                 self.checkBox_Send.stateChanged.disconnect(self.checkbox_send_cb)
-                self.checkBox_Send.setCheckState(2) # 0未选 1 半选 2选
+                self.checkBox_Send.setCheckState(2)  # 0未选 1 半选 2选
                 self.checkBox_Send.stateChanged.connect(self.checkbox_send_cb)
 
                 return
@@ -287,9 +308,13 @@ class GetWin(QMainWindow, Ui_MainWindow):
             self.plainTextEdit_Send.setPlainText(txDataHex)  # 显示
 
     def checkbox_timer_cb(self):
-        t = self.lineEdit_Send_Timer.text()
-        t = int(t)
         if self.checkBox_Send_Timer.isChecked():
+            t = self.lineEdit_Send_Timer.text()
+
+            if len(t) == 0:
+                QMessageBox.critical(self, '严重错误', '请确认间隔')
+                return
+            t = int(t)
             self.timer_send.start(t)
         else:
             self.timer_send.stop()
