@@ -14,7 +14,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(480, 480)
+        Form.resize(680, 680)
+        self.graphicsView = PlotWidget(Form)
+        self.graphicsView.setGeometry(QtCore.QRect(100, 100, 480, 480))
+        self.graphicsView.setObjectName("graphicsView")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -22,3 +25,4 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+from pyqtgraph import PlotWidget
