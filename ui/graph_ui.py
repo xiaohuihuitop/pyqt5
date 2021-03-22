@@ -15,9 +15,9 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(680, 680)
-        self.graphicsView = PlotWidget(Form)
-        self.graphicsView.setGeometry(QtCore.QRect(100, 100, 480, 480))
-        self.graphicsView.setObjectName("graphicsView")
+        self.pw = PlotWidget(Form)
+        self.pw.setGeometry(QtCore.QRect(100, 100, 480, 480))
+        self.pw.setObjectName("pw")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

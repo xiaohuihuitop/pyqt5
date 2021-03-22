@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="PlotWidget" name="graphicsView">
+  <widget class="PlotWidget" name="pw">
    <property name="geometry">
     <rect>
      <x>100</x>
