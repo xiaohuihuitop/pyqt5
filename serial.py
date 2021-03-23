@@ -5,7 +5,9 @@ from PyQt5.QtGui import QIntValidator
 from ui.win import Ui_MainWindow
 import datetime
 import binascii
-
+import pyqtgraph as pg
+import pandas as pd
+import numpy as np
 
 
 class GetWin(QMainWindow, Ui_MainWindow):
@@ -75,7 +77,20 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 初始操作
         self.button_refresh_cb()
         self.pushButton_close.setDisabled(True)
-        self.lineEdit_Send_Timer.setValidator(QIntValidator(0, 99999))
+        self.lineEdit_Send_Timer.setValidator(QIntValidator(0, 99999))  # 设置定时发送数据范围
+
+        # graph 设置
+        self.pw.setTitle("Title", color='008080', size='12pt')
+        self.pw.setLabel("left", "气温(摄氏度)")
+        self.pw.setLabel("bottom", "时间")
+        self.pw.setBackground('w')  # 背景颜色
+
+        self.pw.showGrid(x=True, y=True)  # 网格
+        self.pw.setClipToView(True)
+
+        self.timer_pw = QTimer(self)  # 设置定时器
+        self.timer_pw.timeout.connect(self.pw_update)  # 链接
+        self.timer_pw.start(50)  # 1秒钟一次
 
     def combox_baud_cb(self):
         self.baud = self.comboBox_baud.currentText()
@@ -316,3 +331,19 @@ class GetWin(QMainWindow, Ui_MainWindow):
             self.timer_send.start(t)
         else:
             self.timer_send.stop()
+
+    def pw_update(self):
+        data1 = [0]
+        ptr1 = 0
+        if len(data1) >= 20:
+            data1.remove(data1[0])
+        data1.append(np.random.normal())
+
+        # data1[:-1] = data1[1:]  # shift data in the array one sample left
+        # data1[-1] = np.random.normal()
+
+        self.pw.clear()
+        self.pw.plot().setData(data1, pen='r')
+
+        ptr1 += 1
+        self.pw.plot().setPos(ptr1, 0)

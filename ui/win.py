@@ -14,9 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(849, 749)
-        MainWindow.setMinimumSize(QtCore.QSize(849, 749))
-        MainWindow.setMaximumSize(QtCore.QSize(16777215, 749))
+        MainWindow.resize(850, 750)
+        MainWindow.setMinimumSize(QtCore.QSize(850, 750))
+        MainWindow.setMaximumSize(QtCore.QSize(1455, 750))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -140,6 +140,9 @@ class Ui_MainWindow(object):
         self.label_6 = QtWidgets.QLabel(self.frame_3)
         self.label_6.setGeometry(QtCore.QRect(150, 140, 63, 14))
         self.label_6.setObjectName("label_6")
+        self.pw = PlotWidget(self.centralwidget)
+        self.pw.setGeometry(QtCore.QRect(850, 40, 600, 600))
+        self.pw.setObjectName("pw")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -187,4 +190,5 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "数据位"))
         self.label_5.setText(_translate("MainWindow", "校验位"))
         self.label_6.setText(_translate("MainWindow", "停止位"))
+from pyqtgraph import PlotWidget
 import ui.pic.pic_rc

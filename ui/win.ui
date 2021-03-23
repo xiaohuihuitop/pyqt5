@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>849</width>
-    <height>749</height>
+    <width>850</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>849</width>
-    <height>749</height>
+    <width>850</width>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
-    <height>749</height>
+    <width>1455</width>
+    <height>750</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -510,8 +510,25 @@
      </property>
     </widget>
    </widget>
+   <widget class="PlotWidget" name="pw">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>40</y>
+      <width>600</width>
+      <height>600</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="pic/pic.qrc"/>
  </resources>
