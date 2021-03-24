@@ -520,6 +520,58 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLineEdit" name="pwstart">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>670</y>
+      <width>120</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="pwend">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>670</y>
+      <width>120</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>720</y>
+      <width>63</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(133, 133, 255);</string>
+    </property>
+    <property name="text">
+     <string>数据头</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>1260</x>
+      <y>720</y>
+      <width>63</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(205, 105, 255);</string>
+    </property>
+    <property name="text">
+     <string>数据尾</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

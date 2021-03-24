@@ -143,6 +143,20 @@ class Ui_MainWindow(object):
         self.pw = PlotWidget(self.centralwidget)
         self.pw.setGeometry(QtCore.QRect(850, 40, 600, 600))
         self.pw.setObjectName("pw")
+        self.pwstart = QtWidgets.QLineEdit(self.centralwidget)
+        self.pwstart.setGeometry(QtCore.QRect(900, 670, 120, 30))
+        self.pwstart.setObjectName("pwstart")
+        self.pwend = QtWidgets.QLineEdit(self.centralwidget)
+        self.pwend.setGeometry(QtCore.QRect(1230, 670, 120, 30))
+        self.pwend.setObjectName("pwend")
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setGeometry(QtCore.QRect(930, 720, 63, 14))
+        self.label_7.setStyleSheet("color: rgb(133, 133, 255);")
+        self.label_7.setObjectName("label_7")
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        self.label_8.setGeometry(QtCore.QRect(1260, 720, 63, 14))
+        self.label_8.setStyleSheet("color: rgb(205, 105, 255);")
+        self.label_8.setObjectName("label_8")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -190,5 +204,7 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "数据位"))
         self.label_5.setText(_translate("MainWindow", "校验位"))
         self.label_6.setText(_translate("MainWindow", "停止位"))
+        self.label_7.setText(_translate("MainWindow", "数据头"))
+        self.label_8.setText(_translate("MainWindow", "数据尾"))
 from pyqtgraph import PlotWidget
 import ui.pic.pic_rc

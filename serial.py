@@ -9,6 +9,10 @@ import pyqtgraph as pg
 import pandas as pd
 import numpy as np
 
+pwData = 'data'
+
+# def print(*args, **kwargs):
+#     pass
 
 class GetWin(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -74,6 +78,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 自动滚屏
         self.plainTextEdit_Receive.textChanged.connect(self.text_scroll)
 
+        # 数据图形化
+        self.plainTextEdit_Receive.textChanged.connect(self.pw_update)  # 每次改变数据 会更新一次全局 pwData
+
         # 初始操作
         self.button_refresh_cb()
         self.pushButton_close.setDisabled(True)
@@ -88,9 +95,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw.showGrid(x=True, y=True)  # 网格
         self.pw.setClipToView(True)
 
-        self.timer_pw = QTimer(self)  # 设置定时器
-        self.timer_pw.timeout.connect(self.pw_update)  # 链接
-        self.timer_pw.start(50)  # 1秒钟一次
+        # self.timer_pw = QTimer(self)  # 设置定时器
+        # self.timer_pw.timeout.connect(self.pw_update)  # 链接
+        # self.timer_pw.start(50)  # 1秒钟一次
 
     def combox_baud_cb(self):
         self.baud = self.comboBox_baud.currentText()
@@ -180,6 +187,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         pass
 
     def button_send_cb(self):
+        global pwData  # 测试使用
         alist = []
         print("send")
         time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
@@ -225,6 +233,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
                 time_stamp + "发->" + txDataHex + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
         else:
             txData = self.plainTextEdit_Send.toPlainText()
+            pwData = txData
             print(txData)
             print(txData.encode('UTF-8'))
             self.com.write(txData.encode('UTF-8'))
@@ -232,6 +241,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
                 time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
 
     def com_receive_cb(self):
+        global pwData   # 从串口中得到的准备显示的数据
         print("receive_cb")
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
@@ -242,9 +252,11 @@ class GetWin(QMainWindow, Ui_MainWindow):
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
                     self.plainTextEdit_Receive.insertPlainText(
                         rxData.decode('utf-8') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+                    pwData = rxData.decode('utf-8') + "\n"
                 except:
                     self.plainTextEdit_Receive.insertPlainText(
                         rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
+                    pwData = rxData.decode('ISO-8859-1') + "\n"
             else:
                 try:
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
@@ -333,11 +345,14 @@ class GetWin(QMainWindow, Ui_MainWindow):
             self.timer_send.stop()
 
     def pw_update(self):
+        global pwData
+        print("pwdata", pwData)
+        print("pw_limit",self.pwstart.text(), self.pwend.text())
         data1 = [0]
         ptr1 = 0
         if len(data1) >= 20:
             data1.remove(data1[0])
-        data1.append(np.random.normal())
+        data1.append(int(pwData))
 
         # data1[:-1] = data1[1:]  # shift data in the array one sample left
         # data1[-1] = np.random.normal()

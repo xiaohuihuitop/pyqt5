@@ -11,6 +11,7 @@ import numpy as np
 
 data1 = np.random.normal(size=50)
 data1 = [0]
+data2 = np.random.normal(size=2)
 ptr1 = 0
 class GraphWin(QMainWindow, Ui_Form):
     def __init__(self):
@@ -58,16 +59,16 @@ class GraphWin(QMainWindow, Ui_Form):
             print(traceback.print_exc())
             
     def update1(self):
-        global data1, ptr1
+        global data1, ptr1, data2
+
         if len(data1) >= 20:
             data1.remove(data1[0])
         data1.append(np.random.normal())
 
-        # data1[:-1] = data1[1:]  # shift data in the array one sample left
-        # data1[-1] = np.random.normal()
+        data2[1] = np.random.normal()
 
-        self.pw.clear()
-        self.pw.plot().setData(data1, pen='r')
+        #self.pw.clear()
+        self.pw.plot().setData(data2, pen='r')
 
         ptr1 += 1
         self.pw.plot().setPos(ptr1, 0)
