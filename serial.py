@@ -11,6 +11,8 @@ import numpy as np
 
 pwData = ''
 pwDataarr = [0]
+
+
 # def print(*args, **kwargs):
 #     pass
 
@@ -80,6 +82,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
         # 数据图形化
         self.plainTextEdit_Receive.textChanged.connect(self.pw_update)  # 每次改变数据 会更新一次全局 pwData
+        self.pw_clean.clicked.connect(self.pw_cleandata)  ## 清除图像
 
         # 初始操作
         self.button_refresh_cb()
@@ -241,7 +244,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
                 time_stamp + "发->" + txData + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
 
     def com_receive_cb(self):
-        global pwData   # 从串口中得到的准备显示的数据
+        global pwData  # 从串口中得到的准备显示的数据
         # print("receive_cb")
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
@@ -348,7 +351,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         global pwData
         global pwDataarr
         print("pwdata", pwData)
-        print("pw_limit",self.pwstart.text(), self.pwend.text())
+        print("pw_limit", self.pwstart.text(), self.pwend.text())
         ptr1 = 0
 
         if len(pwData) > 0:  # 表示有数据 而不是空发
@@ -374,3 +377,10 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
         ptr1 += 1
         self.pw.plot().setPos(ptr1, 0)
+
+    def pw_cleandata(self):
+        global pwData
+        global pwDataarr
+        pwData = ''
+        pwDataarr.clear()
+        self.pw.clear()

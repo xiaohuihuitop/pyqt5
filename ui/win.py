@@ -157,6 +157,10 @@ class Ui_MainWindow(object):
         self.label_8.setGeometry(QtCore.QRect(1260, 720, 63, 14))
         self.label_8.setStyleSheet("color: rgb(205, 105, 255);")
         self.label_8.setObjectName("label_8")
+        self.pw_clean = QtWidgets.QPushButton(self.centralwidget)
+        self.pw_clean.setGeometry(QtCore.QRect(1080, 670, 85, 41))
+        self.pw_clean.setStyleSheet("color: rgb(255, 0, 0);")
+        self.pw_clean.setObjectName("pw_clean")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -206,5 +210,6 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "停止位"))
         self.label_7.setText(_translate("MainWindow", "数据头"))
         self.label_8.setText(_translate("MainWindow", "数据尾"))
+        self.pw_clean.setText(_translate("MainWindow", "清除图像"))
 from pyqtgraph import PlotWidget
 import ui.pic.pic_rc

@@ -572,6 +572,22 @@
      <string>数据尾</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pw_clean">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>670</y>
+      <width>85</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>清除图像</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
