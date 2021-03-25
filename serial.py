@@ -9,8 +9,8 @@ import pyqtgraph as pg
 import pandas as pd
 import numpy as np
 
-pwData = 'data'
-
+pwData = ''
+pwDataarr = [0]
 # def print(*args, **kwargs):
 #     pass
 
@@ -346,19 +346,31 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
     def pw_update(self):  # 数据更新时会触发也就是说 发送数据 和 接受数据都会触发的
         global pwData
+        global pwDataarr
         print("pwdata", pwData)
         print("pw_limit",self.pwstart.text(), self.pwend.text())
-        data1 = [0]
         ptr1 = 0
-        if len(data1) >= 20:
-            data1.remove(data1[0])
-        data1.append(int(pwData))
 
-        # data1[:-1] = data1[1:]  # shift data in the array one sample left
-        # data1[-1] = np.random.normal()
+        if len(pwData) > 0:  # 表示有数据 而不是空发
+            # 处理 数据头 与 数据尾
+            if len(self.pwstart.text()) > 0:
+                bb = pwData.split(self.pwstart.text())
+                pwData = bb[1]
+            if len(self.pwend.text()) > 0:
+                bb = pwData.split(self.pwend.text())
+                pwData = bb[0]
+
+            print(pwData)
+            if len(pwDataarr) >= 2000:  # 最大数量
+                pwDataarr.remove(pwDataarr[0])
+
+            if pwData.isalnum():  # 判断是否为全数字 可以减少错误警告
+                pwDataarr.append(int(pwData))
+
+        pwData = ''
 
         self.pw.clear()
-        self.pw.plot().setData(data1, pen='r')
+        self.pw.plot().setData(pwDataarr, pen='r')
 
         ptr1 += 1
         self.pw.plot().setPos(ptr1, 0)
