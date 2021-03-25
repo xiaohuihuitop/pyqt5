@@ -242,21 +242,21 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
     def com_receive_cb(self):
         global pwData   # 从串口中得到的准备显示的数据
-        print("receive_cb")
+        # print("receive_cb")
         rxData = bytes(self.com.readAll())
         if len(rxData) > 0:
             time_stamp = datetime.datetime.now().strftime('%H:%M:%S.%f')
             if not self.checkBox_Receive.isChecked():
                 try:
                     # print(rxData.decode('ascii'))  ## 测试
+                    pwData = rxData.decode('utf-8') + "\n"
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
                     self.plainTextEdit_Receive.insertPlainText(
                         rxData.decode('utf-8') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
-                    pwData = rxData.decode('utf-8') + "\n"
                 except:
+                    pwData = rxData.decode('ISO-8859-1') + "\n"
                     self.plainTextEdit_Receive.insertPlainText(
                         rxData.decode('ISO-8859-1') + "\n")  # ANSI UTF-8 GB2312  ISO-8859-1
-                    pwData = rxData.decode('ISO-8859-1') + "\n"
             else:
                 try:
                     self.plainTextEdit_Receive.insertPlainText(time_stamp + "收->")
@@ -344,7 +344,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         else:
             self.timer_send.stop()
 
-    def pw_update(self):
+    def pw_update(self):  # 数据更新时会触发也就是说 发送数据 和 接受数据都会触发的
         global pwData
         print("pwdata", pwData)
         print("pw_limit",self.pwstart.text(), self.pwend.text())
