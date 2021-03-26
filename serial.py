@@ -362,6 +362,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
             if len(self.pwend.text()) > 0:
                 bb = pwData.split(self.pwend.text())
                 pwData = bb[0]
+            else:
+                bb = pwData.split('\n')  # 自动处理回车换行 因为外部不方便处理
+                pwData = bb[0]
 
             print(pwData)
             if len(pwDataarr) >= 2000:  # 最大数量
