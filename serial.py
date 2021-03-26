@@ -12,6 +12,11 @@ import numpy as np
 pwData = ''
 pwDataarr = [0]
 
+pwData2 = ''
+pwDataarr2 = [0]
+
+pwData3 = ''
+pwDataarr3 = [0]
 
 # def print(*args, **kwargs):
 #     pass
@@ -83,6 +88,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 数据图形化
         self.plainTextEdit_Receive.textChanged.connect(self.pw_update)  # 每次改变数据 会更新一次全局 pwData
         self.pw_clean.clicked.connect(self.pw_cleandata)  ## 清除图像
+        self.pw_clean_2.clicked.connect(self.pw_cleandata2)  ## 清除图像
+        self.pw_clean_3.clicked.connect(self.pw_cleandata3)  ## 清除图像
 
         # 初始操作
         self.button_refresh_cb()
@@ -98,6 +105,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw.showGrid(x=True, y=True)  # 网格
         self.pw.setClipToView(True)
 
+        #self.pw2 = self.pw.add
         # self.timer_pw = QTimer(self)  # 设置定时器
         # self.timer_pw.timeout.connect(self.pw_update)  # 链接
         # self.timer_pw.start(50)  # 1秒钟一次
@@ -386,4 +394,18 @@ class GetWin(QMainWindow, Ui_MainWindow):
         global pwDataarr
         pwData = ''
         pwDataarr.clear()
+        self.pw.clear()
+
+    def pw_cleandata2(self):
+        global pwData2
+        global pwDataarr2
+        pwData2 = ''
+        pwDataarr2.clear()
+        self.pw.clear()
+
+    def pw_cleandata3(self):
+        global pwData3
+        global pwDataarr3
+        pwData3 = ''
+        pwDataarr3.clear()
         self.pw.clear()
