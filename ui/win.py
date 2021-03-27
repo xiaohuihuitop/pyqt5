@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.label_6 = QtWidgets.QLabel(self.frame_3)
         self.label_6.setGeometry(QtCore.QRect(150, 140, 63, 14))
         self.label_6.setObjectName("label_6")
-        self.pw = PlotWidget(self.centralwidget)
+        self.pw = GraphicsLayoutWidget(self.centralwidget)
         self.pw.setGeometry(QtCore.QRect(850, 40, 600, 551))
         self.pw.setObjectName("pw")
         self.pwstart = QtWidgets.QLineEdit(self.centralwidget)
@@ -245,5 +245,5 @@ class Ui_MainWindow(object):
         self.pw_clean_2.setText(_translate("MainWindow", "清除图像"))
         self.pw_clean_3.setText(_translate("MainWindow", "清除图像"))
         self.checkBox_pw_3.setText(_translate("MainWindow", "绘制"))
-from pyqtgraph import PlotWidget
+from pyqtgraph import GraphicsLayoutWidget
 import ui.pic.pic_rc

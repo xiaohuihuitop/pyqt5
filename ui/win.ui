@@ -510,7 +510,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="PlotWidget" name="pw">
+   <widget class="GraphicsLayoutWidget" name="pw">
     <property name="geometry">
      <rect>
       <x>850</x>
@@ -703,9 +703,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PlotWidget</class>
+   <class>GraphicsLayoutWidget</class>
    <extends>QGraphicsView</extends>
-   <header>pyqtgraph</header>
+   <header location="global">pyqtgraph</header>
   </customwidget>
  </customwidgets>
  <resources>

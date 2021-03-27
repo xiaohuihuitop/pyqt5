@@ -88,8 +88,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 数据图形化
         self.plainTextEdit_Receive.textChanged.connect(self.pw_update)  # 每次改变数据 会更新一次全局 pwData
         self.pw_clean.clicked.connect(self.pw_cleandata)  ## 清除图像
-        self.pw_clean_2.clicked.connect(self.pw_cleandata2)  ## 清除图像
-        self.pw_clean_3.clicked.connect(self.pw_cleandata3)  ## 清除图像
+        # self.pw_clean_2.clicked.connect(self.pw_cleandata2)  ## 清除图像
+        # self.pw_clean_3.clicked.connect(self.pw_cleandata3)  ## 清除图像
 
         # 初始操作
         self.button_refresh_cb()
@@ -97,13 +97,15 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.lineEdit_Send_Timer.setValidator(QIntValidator(0, 99999))  # 设置定时发送数据范围
 
         # graph 设置
-        self.pw.setTitle("Title", color='008080', size='12pt')
-        self.pw.setLabel("left", "气温(摄氏度)")
-        self.pw.setLabel("bottom", "时间")
-        self.pw.setBackground('w')  # 背景颜色
+        self.pw.setWindowTitle("小灰灰")
+        self.pw1 = self.pw.addPlot()
+        self.pw1.setTitle("小灰灰", color='008080', size='12pt')
+        self.pw1.setLabel("left", "数据")
+        self.pw1.setLabel("bottom", "时间")
+        # self.pw1.setBackground('w')  # 背景颜色
 
-        self.pw.showGrid(x=True, y=True)  # 网格
-        self.pw.setClipToView(True)
+        self.pw1.showGrid(x=True, y=True)  # 网格
+        self.pw1.setClipToView(True)
 
         #self.pw2 = self.pw.add
         # self.timer_pw = QTimer(self)  # 设置定时器
@@ -387,29 +389,16 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
         pwData = ''
 
-        self.pw.clear()
-        self.pw.plot().setData(pwDataarr, pen='r')
+        self.pw1.clear()
+        self.pw1.plot().setData(pwDataarr, pen='r')
 
         ptr1 += 1
-        self.pw.plot().setPos(ptr1, 0)
+        self.pw1.plot().setPos(ptr1, 0)
 
     def pw_cleandata(self):
         global pwData
         global pwDataarr
         pwData = ''
         pwDataarr.clear()
-        self.pw.clear()
+        self.pw1.clear()
 
-    def pw_cleandata2(self):
-        global pwData2
-        global pwDataarr2
-        pwData2 = ''
-        pwDataarr2.clear()
-        self.pw.clear()
-
-    def pw_cleandata3(self):
-        global pwData3
-        global pwDataarr3
-        pwData3 = ''
-        pwDataarr3.clear()
-        self.pw.clear()
