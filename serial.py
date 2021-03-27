@@ -358,6 +358,10 @@ class GetWin(QMainWindow, Ui_MainWindow):
     def pw_update(self):  # 数据更新时会触发也就是说 发送数据 和 接受数据都会触发的
         global pwData
         global pwDataarr
+        if self.checkBox_pw.isChecked():
+            pass
+        else:
+            return
         print("pwdata", pwData)
         print("pw_limit", self.pwstart.text(), self.pwend.text())
         ptr1 = 0
