@@ -8,15 +8,15 @@ import binascii
 import pyqtgraph as pg
 import pandas as pd
 import numpy as np
+import re
 
 pwData = ''
-pwDataarr = [0]
-
 pwData2 = ''
-pwDataarr2 = [0]
-
 pwData3 = ''
+pwDataarr = [0]
+pwDataarr2 = [0]
 pwDataarr3 = [0]
+ptr1 = 0
 
 # def print(*args, **kwargs):
 #     pass
@@ -88,8 +88,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         # 数据图形化
         self.plainTextEdit_Receive.textChanged.connect(self.pw_update)  # 每次改变数据 会更新一次全局 pwData
         self.pw_clean.clicked.connect(self.pw_cleandata)  ## 清除图像
-        # self.pw_clean_2.clicked.connect(self.pw_cleandata2)  ## 清除图像
-        # self.pw_clean_3.clicked.connect(self.pw_cleandata3)  ## 清除图像
+        self.pw_clean_2.clicked.connect(self.pw_cleandata2)  ## 清除图像
+        self.pw_clean_3.clicked.connect(self.pw_cleandata3)  ## 清除图像
 
         # 初始操作
         self.button_refresh_cb()
@@ -107,7 +107,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.showGrid(x=True, y=True)  # 网格
         self.pw1.setClipToView(True)
 
-        #self.pw2 = self.pw.add
+        # self.pw2 = self.pw.add
         # self.timer_pw = QTimer(self)  # 设置定时器
         # self.timer_pw.timeout.connect(self.pw_update)  # 链接
         # self.timer_pw.start(50)  # 1秒钟一次
@@ -358,39 +358,73 @@ class GetWin(QMainWindow, Ui_MainWindow):
             self.timer_send.stop()
 
     def pw_update(self):  # 数据更新时会触发也就是说 发送数据 和 接受数据都会触发的
-        global pwData
-        global pwDataarr
-        if self.checkBox_pw.isChecked():
-            pass
-        else:
-            return
-        print("pwdata", pwData)
-        print("pw_limit", self.pwstart.text(), self.pwend.text())
-        ptr1 = 0
+        global pwData, pwData2, pwData3
+        global pwDataarr, pwDataarr2, pwDataarr3
+        global ptr1
+        pwData2 = pwData
+        pwData3 = pwData
+        print("pwdata:", pwData)
+        print("pwdata2:", pwData2)
+        print("pwdata3:", pwData3)
 
         if len(pwData) > 0:  # 表示有数据 而不是空发
             # 处理 数据头 与 数据尾
-            if len(self.pwstart.text()) > 0:
-                bb = pwData.split(self.pwstart.text())
-                pwData = bb[1]
-            if len(self.pwend.text()) > 0:
-                bb = pwData.split(self.pwend.text())
-                pwData = bb[0]
-            else:
-                bb = pwData.split('\n')  # 自动处理回车换行 因为外部不方便处理
-                pwData = bb[0]
 
-            print(pwData)
-            if len(pwDataarr) >= 2000:  # 最大数量
-                pwDataarr.remove(pwDataarr[0])
+            key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart.text())
+            print("key = ", key)
+            ret = re.search(key, pwData)
+            if ret is not None:
+                pwData = ret.group(0)
 
-            if pwData.isalnum():  # 判断是否为全数字 可以减少错误警告
-                pwDataarr.append(int(pwData))
+            key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart_2.text())
+            print("key = ", key)
+            ret = re.search(key, pwData2)
+            if ret is not None:
+                pwData2 = ret.group(0)
+
+            key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart_3.text())
+            print("key = ", key)
+            ret = re.search(key, pwData3)
+            if ret is not None:
+                pwData3 = ret.group(0)
+
+
+            # 数据得到完毕
+
+            print("pwdata_re:", pwData)
+            print("pwdata2_re:", pwData2)
+            print("pwdata3_re:", pwData3)
+
+            if self.checkBox_pw.isChecked():  # 1111111111
+                if len(pwDataarr) >= 2000:  # 最大数量
+                    if pwData.isalnum():
+                        pwDataarr.remove(pwDataarr[0])
+
+                if pwData.isalnum():  # 判断是否为全数字 可以减少错误警告
+                    pwDataarr.append(int(pwData))
+
+            if self.checkBox_pw_2.isChecked():  # 222222222
+                if len(pwDataarr2) >= 2000:  # 最大数量
+                    if pwData2.isalnum():
+                        pwDataarr2.remove(pwDataarr2[0])
+
+                if pwData2.isalnum():  # 判断是否为全数字 可以减少错误警告
+                    pwDataarr2.append(int(pwData2))
+
+            if self.checkBox_pw_3.isChecked():  # 333333333
+                if len(pwDataarr3) >= 2000:  # 最大数量
+                    if pwData3.isalnum():
+                        pwDataarr3.remove(pwDataarr3[0])
+
+                if pwData3.isalnum():  # 判断是否为全数字 可以减少错误警告
+                    pwDataarr3.append(int(pwData3))
 
         pwData = ''
 
         self.pw1.clear()
         self.pw1.plot().setData(pwDataarr, pen='r')
+        self.pw1.plot().setData(pwDataarr2, pen='g')
+        self.pw1.plot().setData(pwDataarr3, pen='b')
 
         ptr1 += 1
         self.pw1.plot().setPos(ptr1, 0)
@@ -400,5 +434,33 @@ class GetWin(QMainWindow, Ui_MainWindow):
         global pwDataarr
         pwData = ''
         pwDataarr.clear()
-        self.pw1.clear()
 
+
+        self.pw1.clear()
+        self.pw1.plot().setData(pwDataarr, pen='r')
+        self.pw1.plot().setData(pwDataarr2, pen='g')
+        self.pw1.plot().setData(pwDataarr3, pen='b')
+
+    def pw_cleandata2(self):
+        global pwData2
+        global pwDataarr2
+
+        pwData2 = ''
+        pwDataarr2.clear()
+
+        self.pw1.clear()
+        self.pw1.plot().setData(pwDataarr, pen='r')
+        self.pw1.plot().setData(pwDataarr2, pen='g')
+        self.pw1.plot().setData(pwDataarr3, pen='b')
+
+    def pw_cleandata3(self):
+        global pwData3
+        global pwDataarr3
+
+        pwData3 = ''
+        pwDataarr3.clear()
+
+        self.pw1.clear()
+        self.pw1.plot().setData(pwDataarr, pen='r')
+        self.pw1.plot().setData(pwDataarr2, pen='g')
+        self.pw1.plot().setData(pwDataarr3, pen='b')
