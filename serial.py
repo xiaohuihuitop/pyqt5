@@ -18,6 +18,7 @@ pwDataarr2 = [0]
 pwDataarr3 = [0]
 ptr1 = 0
 
+
 # def print(*args, **kwargs):
 #     pass
 
@@ -97,9 +98,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.lineEdit_Send_Timer.setValidator(QIntValidator(0, 99999))  # 设置定时发送数据范围
 
         # graph 设置
-        self.pw.setWindowTitle("小灰灰")
+        self.pw.setWindowTitle("小灰灰Main")
         self.pw1 = self.pw.addPlot()
-        self.pw1.setTitle("小灰灰", color='008080', size='12pt')
+        self.pw1.setTitle("小灰灰", color='00ffff', size='12pt')
         self.pw1.setLabel("left", "数据")
         self.pw1.setLabel("bottom", "时间")
         # self.pw1.setBackground('w')  # 背景颜色
@@ -111,8 +112,6 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.plot().scene().sigMouseClicked.connect(self.mouseClicked)  # 绑定槽
 
         # 显示线
-
-
 
         # self.pw2 = self.pw.add
         # self.timer_pw = QTimer(self)  # 设置定时器
@@ -395,7 +394,6 @@ class GetWin(QMainWindow, Ui_MainWindow):
             if ret is not None:
                 pwData3 = ret.group(0)
 
-
             # 数据得到完毕
 
             print("pwdata_re:", pwData)
@@ -442,7 +440,6 @@ class GetWin(QMainWindow, Ui_MainWindow):
         pwData = ''
         pwDataarr.clear()
 
-
         self.pw1.clear()
         self.pw1.plot().setData(pwDataarr, pen='r')
         self.pw1.plot().setData(pwDataarr2, pen='g')
@@ -473,7 +470,12 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.plot().setData(pwDataarr3, pen='b')
 
     def mouseClicked(self, MouseClickEvent):
+        vb1 = self.pw1.vb
+        print([MouseClickEvent.scenePos().x(), MouseClickEvent.scenePos().y()])
+        mousePoint = vb1.mapSceneToView(MouseClickEvent.scenePos())
+        print(mousePoint.x(), mousePoint.y())
+        x = float(mousePoint.x())
+        y = float(mousePoint.y())
+        self.pw1.setTitle("小灰灰^_^---时间  X=%0.2f  高度  Y=%0.2f" % (x, y))
 
-        print([MouseClickEvent.pos().x(), MouseClickEvent.pos().y()])
 
-        print("cc")
