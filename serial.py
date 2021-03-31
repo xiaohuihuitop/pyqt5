@@ -27,6 +27,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         super(GetWin, self).__init__()
         self.setupUi(self)
 
+        self.setWindowTitle("小灰灰串口工具")
+
         # 配置文件
         self.settings = QSettings("config.ini", QSettings.IniFormat)
 
@@ -477,5 +479,16 @@ class GetWin(QMainWindow, Ui_MainWindow):
         x = float(mousePoint.x())
         y = float(mousePoint.y())
         self.pw1.setTitle("小灰灰^_^---时间  X=%0.2f  高度  Y=%0.2f" % (x, y))
+
+        # # 显示双轴线  每次都会出现一条新的 不太方便
+        # vLine1 = pg.InfiniteLine(angle=90, movable=False)
+        # hLine1 = pg.InfiniteLine(angle=0, movable=False)
+        # self.pw1.addItem(vLine1, ignoreBounds=True)
+        # self.pw1.addItem(hLine1, ignoreBounds=True)
+        #
+        # vLine1.setPos(mousePoint.x())
+        # hLine1.setPos(mousePoint.y())
+
+
 
 
