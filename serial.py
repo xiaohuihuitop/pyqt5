@@ -107,6 +107,13 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.showGrid(x=True, y=True)  # 网格
         self.pw1.setClipToView(True)
 
+        # 鼠标移动获取数据
+        self.pw1.plot().scene().sigMouseMoved.connect(self.mouseMoved)  # 绑定槽
+
+        # 显示线
+
+
+
         # self.pw2 = self.pw.add
         # self.timer_pw = QTimer(self)  # 设置定时器
         # self.timer_pw.timeout.connect(self.pw_update)  # 链接
@@ -464,3 +471,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.plot().setData(pwDataarr, pen='r')
         self.pw1.plot().setData(pwDataarr2, pen='g')
         self.pw1.plot().setData(pwDataarr3, pen='b')
+
+    def mouseMoved(self, pos):
+        act_pos = self.pw1.plot().mapFromScene(pos)
+        print(act_pos.x(), act_pos.y())
