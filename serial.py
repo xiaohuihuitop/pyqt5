@@ -108,7 +108,7 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.setClipToView(True)
 
         # 鼠标移动获取数据
-        self.pw1.plot().scene().sigMouseMoved.connect(self.mouseMoved)  # 绑定槽
+        self.pw1.plot().scene().sigMouseClicked.connect(self.mouseClicked)  # 绑定槽
 
         # 显示线
 
@@ -472,6 +472,8 @@ class GetWin(QMainWindow, Ui_MainWindow):
         self.pw1.plot().setData(pwDataarr2, pen='g')
         self.pw1.plot().setData(pwDataarr3, pen='b')
 
-    def mouseMoved(self, pos):
-        act_pos = self.pw1.plot().mapFromScene(pos)
-        print(act_pos.x(), act_pos.y())
+    def mouseClicked(self, MouseClickEvent):
+
+        print([MouseClickEvent.pos().x(), MouseClickEvent.pos().y()])
+
+        print("cc")
