@@ -382,9 +382,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("key = ", key)
             ret = re.findall(key, pwData)  # 因为可能收到连续的 所以需要全部取出 使用findall
             if len(ret) > 0:
-                for pwData in ret:  # 循环赋值
-                    if self.checkBox_pw.isChecked():  # 1111111111
-                        if len(pwDataarr) >= 2000:  # 最大数量
+                if self.checkBox_pw.isChecked():  # 1111111111
+                    for pwData in ret:  # 循环赋值
+                        if len(pwDataarr) >= 6666:  # 最大数量
                             if pwData.isalnum():
                                 pwDataarr.remove(pwDataarr[0])
 
@@ -395,9 +395,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("key = ", key)
             ret = re.findall(key, pwData2)
             if len(ret) > 0:
-                for pwData2 in ret:
-                    if self.checkBox_pw_2.isChecked():  # 222222222
-                        if len(pwDataarr2) >= 2000:  # 最大数量
+                if self.checkBox_pw_2.isChecked():  # 222222222
+                    for pwData2 in ret:
+                        if len(pwDataarr2) >= 6666:  # 最大数量
                             if pwData2.isalnum():
                                 pwDataarr2.remove(pwDataarr2[0])
 
@@ -408,9 +408,9 @@ class GetWin(QMainWindow, Ui_MainWindow):
             print("key = ", key)
             ret = re.findall(key, pwData3)
             if len(ret) > 0:
-                for pwData3 in ret:
-                    if self.checkBox_pw_3.isChecked():  # 333333333
-                        if len(pwDataarr3) >= 2000:  # 最大数量
+                if self.checkBox_pw_3.isChecked():  # 333333333
+                    for pwData3 in ret:
+                        if len(pwDataarr3) >= 6666:  # 最大数量
                             if pwData3.isalnum():
                                 pwDataarr3.remove(pwDataarr3[0])
 
