@@ -380,51 +380,42 @@ class GetWin(QMainWindow, Ui_MainWindow):
 
             key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart.text())
             print("key = ", key)
-            ret = re.search(key, pwData)
-            if ret is not None:
-                pwData = ret.group(0)
+            ret = re.findall(key, pwData)  # 因为可能收到连续的 所以需要全部取出 使用findall
+            if len(ret) > 0:
+                for pwData in ret:  # 循环赋值
+                    if self.checkBox_pw.isChecked():  # 1111111111
+                        if len(pwDataarr) >= 2000:  # 最大数量
+                            if pwData.isalnum():
+                                pwDataarr.remove(pwDataarr[0])
+
+                        if pwData.isalnum():  # 判断是否为全数字 可以减少错误警告
+                            pwDataarr.append(int(pwData))
 
             key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart_2.text())
             print("key = ", key)
-            ret = re.search(key, pwData2)
-            if ret is not None:
-                pwData2 = ret.group(0)
+            ret = re.findall(key, pwData2)
+            if len(ret) > 0:
+                for pwData2 in ret:
+                    if self.checkBox_pw_2.isChecked():  # 222222222
+                        if len(pwDataarr2) >= 2000:  # 最大数量
+                            if pwData2.isalnum():
+                                pwDataarr2.remove(pwDataarr2[0])
+
+                        if pwData2.isalnum():  # 判断是否为全数字 可以减少错误警告
+                            pwDataarr2.append(int(pwData2))
 
             key = r"(?<={0})\d+(?=\D|\s*)".format(self.pwstart_3.text())
             print("key = ", key)
-            ret = re.search(key, pwData3)
-            if ret is not None:
-                pwData3 = ret.group(0)
+            ret = re.findall(key, pwData3)
+            if len(ret) > 0:
+                for pwData3 in ret:
+                    if self.checkBox_pw_3.isChecked():  # 333333333
+                        if len(pwDataarr3) >= 2000:  # 最大数量
+                            if pwData3.isalnum():
+                                pwDataarr3.remove(pwDataarr3[0])
 
-            # 数据得到完毕
-
-            print("pwdata_re:", pwData)
-            print("pwdata2_re:", pwData2)
-            print("pwdata3_re:", pwData3)
-
-            if self.checkBox_pw.isChecked():  # 1111111111
-                if len(pwDataarr) >= 2000:  # 最大数量
-                    if pwData.isalnum():
-                        pwDataarr.remove(pwDataarr[0])
-
-                if pwData.isalnum():  # 判断是否为全数字 可以减少错误警告
-                    pwDataarr.append(int(pwData))
-
-            if self.checkBox_pw_2.isChecked():  # 222222222
-                if len(pwDataarr2) >= 2000:  # 最大数量
-                    if pwData2.isalnum():
-                        pwDataarr2.remove(pwDataarr2[0])
-
-                if pwData2.isalnum():  # 判断是否为全数字 可以减少错误警告
-                    pwDataarr2.append(int(pwData2))
-
-            if self.checkBox_pw_3.isChecked():  # 333333333
-                if len(pwDataarr3) >= 2000:  # 最大数量
-                    if pwData3.isalnum():
-                        pwDataarr3.remove(pwDataarr3[0])
-
-                if pwData3.isalnum():  # 判断是否为全数字 可以减少错误警告
-                    pwDataarr3.append(int(pwData3))
+                        if pwData3.isalnum():  # 判断是否为全数字 可以减少错误警告
+                            pwDataarr3.append(int(pwData3))
 
         pwData = ''
 
@@ -488,7 +479,3 @@ class GetWin(QMainWindow, Ui_MainWindow):
         #
         # vLine1.setPos(mousePoint.x())
         # hLine1.setPos(mousePoint.y())
-
-
-
-
